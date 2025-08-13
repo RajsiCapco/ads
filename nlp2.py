@@ -265,7 +265,7 @@ crisis_keywords_df = pd.DataFrame(term_trends).T.fillna(0).astype(int)
 # %%
 # VISUALIZE TERM FREQUENCY
 crisis_keywords_df.plot(figsize=(14, 6), marker='o')
-plt.title("📉 Crisis Term Mentions Over Time (Oct 2001 – Jan 2002)")
+plt.title(" Crisis Term Mentions Over Time (Oct 2001 – Jan 2002)")
 plt.ylabel("Number of Mentions")
 plt.xlabel("Month")
 plt.xticks(rotation=45)
@@ -275,7 +275,7 @@ plt.show()
 
 plt.figure(figsize=(12, 6))
 sns.heatmap(crisis_keywords_df.T, cmap='Reds', annot=True, fmt='d')
-plt.title("🔥 Crisis Keyword Frequency Heatmap (Oct 2001 – Jan 2002)")
+plt.title(" Crisis Keyword Frequency Heatmap (Oct 2001 – Jan 2002)")
 plt.xlabel("Month")
 plt.ylabel("Crisis Keyword")
 plt.tight_layout()
