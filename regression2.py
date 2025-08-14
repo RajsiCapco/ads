@@ -310,14 +310,57 @@ print("Final Tuned Model Performance")
 print("R²:", r2_score(y_test, final_rf_pred))
 print("MAE:", mean_absolute_error(y_test, final_rf_pred))
 
+plt.figure(figsize=(8, 6))
+sns.scatterplot(x=y_test, y=final_rf_pred, alpha=0.6, color="dodgerblue")
+plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], color="red", linestyle="--")
+
+plt.title("Final Model: Actual vs Predicted Charges", fontsize=14)
+plt.xlabel("Actual Charges")
+plt.ylabel("Predicted Charges")
+
+# Optional metrics on plot
+r2_final = r2_score(y_test, final_rf_pred)
+mae_final = mean_absolute_error(y_test, final_rf_pred)
+plt.text(y_test.min(), y_test.max()*0.95, f"R²: {r2_final:.2f}\nMAE: {mae_final:,.0f}", fontsize=10)
+
+plt.tight_layout()
+plt.show()
+
+# %%
+#Feature Importance Final Model 
+# # Create importance dataframe
+importances = pd.Series(final_rf.feature_importances_, index=X_train_full.columns)
+importances = importances.sort_values(ascending=True)
+
+# Plot
+plt.figure(figsize=(8, 6))
+importances.plot(kind="barh", color="seagreen")
+plt.title("Feature Importances (Final Model)")
+plt.xlabel("Importance Score")
+plt.tight_layout()
+plt.show()
+
+# %%
+#Residual Plot Final Model
+residuals = y_test - final_rf_pred
+
+plt.figure(figsize=(8, 5))
+sns.histplot(residuals, kde=True, bins=30, color="slateblue")
+plt.title("Residuals Distribution")
+plt.xlabel("Prediction Error (Residuals)")
+plt.ylabel("Frequency")
+plt.axvline(0, color='red', linestyle='--')
+plt.tight_layout()
+plt.show()
+
 # %%
 #Partial Dependence Plots
 PartialDependenceDisplay.from_estimator(
     final_rf,
     X_test_full,
-    features=['age', 'bmi'],
+    features=['age', 'bmi', 'smoker'],
     kind="average",
-    grid_resolution=50
+    grid_resolution=70
 )
 plt.suptitle("Partial Dependence Plots: Charges vs Features", fontsize=14, y=1.02)
 plt.tight_layout()
